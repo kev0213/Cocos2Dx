@@ -4,6 +4,13 @@
 
 USING_NS_CC;
 
+Scene101::Scene101() {
+
+	_Tflag = false;
+	_turntime = 0;
+	_turnrota = 0;
+}
+
 Scene* Scene101::createScene()
 {
 	// 'scene' is an autorelease object
@@ -38,6 +45,14 @@ bool Scene101::init()
 	bkimage->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y)); // 位置通常放置在螢幕正中間
 	this->addChild(bkimage, 0);
 
+
+	_bbno = Sprite::create("scene101/bean1_01.png");  // 使用 create 函式,給予檔名即可
+	_bbno->setPosition(Vec2(visibleSize.width / 2 + origin.x, visibleSize.height / 2 + origin.y)); // 位置通常放置在螢幕正中間
+	_bbno->setRotation(0);
+	this->addChild(_bbno, 0);
+
+
+
 	// 自行增加 sprite 將 bean01.png 到螢幕正中間
 
 
@@ -63,8 +78,8 @@ bool Scene101::init()
 	auto strings = FileUtils::getInstance()->getValueMapFromFile("scene101/strings.xml");
 	std::string str1 = strings["chinese1"].asString();
 	std::string str2 = strings["chinese2"].asString();
-	auto label2 = Label::createWithBMFont("fonts/hansans48.fnt", str1);
-	auto label3 = Label::createWithBMFont("fonts/hansans48.fnt", str2);
+	auto label2 = Label::createWithBMFont("fonts/bean.fnt", str1);
+	auto label3 = Label::createWithBMFont("fonts/bean.fnt", str2);
 	size = label2->getContentSize();
 	label2->setColor(Color3B(255, 238, 217));
 	label2->setPosition(Vec2(origin.x + visibleSize.width / 2, origin.y + visibleSize.height - 80 - size.height));
@@ -112,6 +127,13 @@ bool Scene101::init()
 
 void Scene101::doStep(float dt)  // OnFrameMove
 {
+	if (_Tflag)
+	{
+		_turntime += dt;
+		_turnrota = _turntime*180;
+		_bbno->setRotation(_turnrota);
+	}
+
 
 }
 
@@ -129,6 +151,7 @@ bool  Scene101::onTouchBegan(cocos2d::Touch *pTouch, cocos2d::Event *pEvent)//�
 		Director::getInstance()->end();
 	}
 
+	_Tflag = true;
 	return true;
 }
 

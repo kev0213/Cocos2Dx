@@ -13,14 +13,20 @@ private:
 	cocos2d::Rect    rectReplay;
 	cocos2d::Rect    rectReturn;
 
+
+	cocos2d::Sprite* _bbno;
+	bool _Tflag = false;
+	float _turntime;
+	float _turnrota;
 	int  _sceneno;
 	char _cSceneNo[10];
 
 public:
     static cocos2d::Scene* createScene();
-
     virtual bool init();
 	void doStep(float dt);
+
+	Scene101();
 
 	//Ä²¸I
 	cocos2d::EventListenerTouchOneByOne *_listener1;
