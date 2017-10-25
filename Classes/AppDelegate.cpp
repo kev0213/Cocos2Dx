@@ -1,4 +1,4 @@
-﻿#define SceneTransition 1
+﻿#define SceneTransition 3
 
 #include "AppDelegate.h"
 #if SceneTransition == 1 || SceneTransition == 2
@@ -8,6 +8,8 @@
 #endif
 
 USING_NS_CC;
+
+cocos2d::Size fSize;
 
 static cocos2d::Size screenResolutionSize = cocos2d::Size(1920, 1080);
 static cocos2d::Size designResolutionSize = cocos2d::Size(1280, 720);
@@ -61,8 +63,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     director->setAnimationInterval(1.0f / 60.0f);
 
     // Set the design resolution
-    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
+    glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::SHOW_ALL);
     Size frameSize = glview->getFrameSize();
+	fSize = frameSize;
 //#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 //	director->setContentScaleFactor(MIN(screenResolutionSize.height / designResolutionSize.height, screenResolutionSize.width / designResolutionSize.width));
 //#else
@@ -80,7 +83,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 #elif SceneTransition == 2
 	auto scene = TransitionMoveInL::create(0.6f, Scene101::createScene());
 	director->runWithScene(scene);
+#elif SceneTransition == 3
+	auto scene = TransitionZoomFlipX::create(0.6f, Scene102::createScene());
+	director->runWithScene(scene);
 #endif
+
 
 //	Director::getInstance()->replaceScene(scene);
     return true;
